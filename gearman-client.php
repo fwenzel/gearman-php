@@ -35,19 +35,25 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
+require_once('Net/Gearman/Client.php');
+
 define('HERE', dirname(__FILE__));
 require_once(HERE.'/config.php');
 
 class Gearman_Client extends Net_Gearman_Client {
+    protected $config = null;
+
     /**
      * Constructor: connect to servers from config file
      */
     public function __construct($servers = null, $timeout = null) {
-        if (!$servers && count(Gearman_Config::$servers))
-            $servers = $gearman_servers;
+        $this->config = new Gearman_Config();
 
-        if (!$timeout && Gearman_Config::$timeout)
-            $timeout = Gearman_Config::$timeout;
+        if (!$servers && count($this->config->servers))
+            $servers = $this->config->servers;
+
+        if (!$timeout && $this->config->timeout)
+            $timeout = $this->config->timeout;
         else
             $timeout = $this->$timeout;
 
