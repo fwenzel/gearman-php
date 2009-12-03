@@ -42,7 +42,7 @@ class Gearman_Client extends Net_Gearman_Client {
     /**
      * Constructor: connect to servers from config file
      */
-    public __construct($servers = null, $timeout = null) {
+    public function __construct($servers = null, $timeout = null) {
         if (!$servers && count(Gearman_Config::$servers))
             $servers = $gearman_servers;
 
