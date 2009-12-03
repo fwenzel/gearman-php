@@ -1,5 +1,4 @@
-gearman-php
-===========
+# gearman-php #
 
 *gearman-php* is a convenience wrapper for the [Gearman](http://gearman.org)
 [PEAR Library](http://pear.php.net/package/Net_Gearman/).
@@ -8,14 +7,28 @@ With gearman-php, you can code workers as well as clients in PHP with minimal
 overhead in your application. Server connections etc. all take place in
 gearman-php and don't unnecessarily clog your application code.
 
-Requirements
-------------
+## Requirements ##
 You want to install the Net_Gearman library off PEAR (at the time of writing:
 version 0.2.3):
     pear install Net_Gearman-0.2.3
 
-Licensing
----------
+## Using gearman-php ##
+### As a client ###
+...
+
+### As a worker ###
+Put a checkout of gearman-php somewhere convenient on your worker box and edit
+the config file. Place some worker jobs into the jobs/ directory. For an example
+on how to code a Job, look at jobs/Example.php.
+
+When this is done, just run:
+    php gearman-worker.php
+
+The script will connect to the server(s), wait for input, and process work as it
+comes along. As the script will keep running (waiting for and processing work),
+you want to run it in a *screen* session or similar.
+
+## Licensing ##
 This software is licensed under the [Mozilla Tri-License](http://www.mozilla.org/MPL/):
 
     ***** BEGIN LICENSE BLOCK *****
