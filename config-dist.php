@@ -23,12 +23,13 @@ class Gearman_Config {
      * Class prefix for jobs. Example: If prefix is 'Prefix_', job classes
      * need to be called 'Prefix_MyJob' insite $job_path/MyJob.php.
      */
-    public $class_prefix = '';
+    public $class_prefix = 'Job_';
 
     /**
      * Workers only:
      * 'Abilities' are the job names you want this worker to execute.
      * Null means, all .php files in $job_path are considered jobs.
+     * ('Example' will be excluded automatically, unless named specifically)
      */
     public $abilities = null;
         //array(

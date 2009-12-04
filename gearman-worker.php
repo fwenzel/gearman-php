@@ -71,14 +71,17 @@ class Gearman_Worker extends Net_Gearman_Worker {
             $abilities = array();
             if ($handle = opendir($this->config->job_path)) {
                 while (false !== ($file = readdir($handle))) {
-                    if (substr($file, -4 === '.php')) {
-                        $abilities[] = substr($file, 0, -4);
+                    if (substr($file, -4 === '.php') &&
+                        $ability = substr($file, 0, -4) != 'Example') {
+
+                        $abilities[] = $ability;
                     }
                 }
                 closedir($handle);
             }
         }
         foreach ($abilities as $ability) {
+            echo "Adding ability '{$ability}'\n";
             if (is_array($ability))
                 $this->addAbility($ability[0], $ability[1]);
             else
