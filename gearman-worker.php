@@ -35,27 +35,16 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
+require_once(dirname(__FILE__).'/config.php');
 require_once('Net/Gearman/Worker.php');
 
-define('HERE', dirname(__FILE__));
-require_once(HERE.'/config.php');
-
 class Gearman_Worker extends Net_Gearman_Worker {
-    protected $config = null;
-
     /**
      * Constructor: connect to servers from config file
      */
     public function __construct($servers = null, $id = null) {
-        $this->config = new Gearman_Config();
-
-        if (!defined('NET_GEARMAN_JOB_PATH'))
-            define('NET_GEARMAN_JOB_PATH', $this->config->job_path);
-        if (!defined('NET_GEARMAN_JOB_CLASS_PREFIX'))
-            define('NET_GEARMAN_JOB_CLASS_PREFIX', $this->config->class_prefix);
-
-        if (!$servers && count($this->config->servers))
-            $servers = $this->config->servers;
+        if (!$servers && count(Gearman_Config::$servers))
+            $servers = Gearman_Config::$servers;
 
         parent::__construct($servers, $id);
 
@@ -66,10 +55,10 @@ class Gearman_Worker extends Net_Gearman_Worker {
      * registers abilities as specified in the config file
      */
     private function _registerAbilities() {
-        $abilities = $this->config->abilities;
+        $abilities = Gearman_Config::$abilities;
         if (empty($abilities)) {
             $abilities = array();
-            if ($handle = opendir($this->config->job_path)) {
+            if ($handle = opendir(NET_GEARMAN_JOB_PATH)) {
                 while (false !== ($file = readdir($handle))) {
                     if (substr($file, -4 === '.php') &&
                         $ability = substr($file, 0, -4) != 'Example') {
