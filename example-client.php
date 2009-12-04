@@ -61,6 +61,9 @@ if (defined('STDIN')) {
 
 /**
  * Callback, executed on job completion
+ * @param string $job job name, e.g. 'Example'
+ * @param string $handle unique task handle
+ * @param array $result job result
  */
 function complete($job, $handle, $result) {
     echo "Received result from Job '$job':\n";

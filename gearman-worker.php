@@ -60,10 +60,8 @@ class Gearman_Worker extends Net_Gearman_Worker {
             $abilities = array();
             if ($handle = opendir(NET_GEARMAN_JOB_PATH)) {
                 while (false !== ($file = readdir($handle))) {
-                    if (substr($file, -4 === '.php') &&
-                        $ability = substr($file, 0, -4) != 'Example') {
-
-                        $abilities[] = $ability;
+                    if (substr($file, -4) === '.php') {
+                        $abilities[] = substr($file, 0, -4);
                     }
                 }
                 closedir($handle);
