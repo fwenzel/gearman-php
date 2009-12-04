@@ -1,6 +1,8 @@
 Improvements:
 -------------
 * Need a way to run separate workers, so that job A does not block on job B.
+* Encourage daemonizing the workers, e.g. with supervisord, so they are
+  respawned in case of failure.
 
 Known Bugs
 ----------
