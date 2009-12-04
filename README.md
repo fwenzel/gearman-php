@@ -14,7 +14,20 @@ version 0.2.3):
 
 ## Using gearman-php ##
 ### As a client ###
-...
+Take a look at example-client.php -- this example works out of the box. If you
+edit the config file and start the gearman worker (see below), you can (in
+another shell) simply execute
+    php example-client.php
+to see gearman-php in action.
+
+In your own application, using the gearman client is as simple as:
+    function complete($job, $handle, $result) {
+        echo "Finished $job:\n";
+        print_r($result);
+    }
+    require_once('/path/to/gearman-php/gearman-client.php');
+    $client = new Gearman_Client();
+    $client->execute('MyJob', array('my input'), 'complete');
 
 ### As a worker ###
 Put a checkout of gearman-php somewhere convenient on your worker box and edit

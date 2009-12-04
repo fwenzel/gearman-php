@@ -35,9 +35,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-$here = dirname(__FILE__);
-require_once($here.'/config.php');
-require_once($here.'/gearman-client.php');
+require_once(dirname(__FILE__).'/gearman-client.php');
 
 // instantiate and run this example, if it was called from the CLI
 if (defined('STDIN')) {
