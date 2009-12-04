@@ -35,25 +35,36 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-require_once('Net/Gearman/Job/Common.php');
+$here = dirname(__FILE__);
+require_once($here.'/config.php');
+require_once($here.'/gearman-client.php');
 
-class Job_Example extends Net_Gearman_Job_Common {
+// instantiate and run this example, if it was called from the CLI
+if (defined('STDIN')) {
+    $reversible = 'The quick brown fox jumped over the lazy dog.';
 
-    /**
-     * Do your work here
-     * @param array $args arguments for this job
-     */
-    public function run($args) {
-        // if something goes wrong, call fail()
-        if (empty($args)) {
-            $this->fail();
-            return;
-        }
+    try {
+        echo "Instantiating new Client...\n";
+        $client = new Gearman_Client();
 
-        $result = array_map('strrev', $args);
+        echo "Executing a new 'Example' Task:\n";
+        echo "Reverse the string '{$reversible}'.\n";
+        $client->execute('Example', array($reversible), 'complete');
 
-        // call "complete" with the result
-        return $result;
+    } catch (Net_Gearman_Exception $e) {
+        echo $e->getMessage() . "\n";
+        exit(1);
     }
+} else {
+    die("Please run me from the CLI!\n");
+}
+
+/**
+ * Callback, executed on job completion
+ */
+function complete($job, $handle, $result) {
+    echo "Received result from Job '$job':\n";
+    foreach ($result as $line)
+        echo "{$line}\n";
 }
 

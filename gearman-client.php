@@ -53,4 +53,23 @@ class Gearman_Client extends Net_Gearman_Client {
 
         return parent::__construct($servers, $timeout);
     }
+
+    /**
+     * Convenience wrapper for running a task.
+     * @param string $job name of job to be ran
+     * @param array $args arguments for the job
+     * @param callback $complete PHP callback to be executed on completion
+     *        (needs to accept: $job, $handle, $result)
+     * @return void
+     */
+    public function execute($job, $args=array(), $complete=null) {
+        $task = new Net_Gearman_Task($job, $args);
+        if (is_callable($complete))
+            $task->attachCallback($complete, Net_Gearman_Task::TASK_COMPLETE);
+
+        $set = new Net_Gearman_Set();
+        $set->addTask($task);
+
+        $this->runSet($set);
+    }
 }
